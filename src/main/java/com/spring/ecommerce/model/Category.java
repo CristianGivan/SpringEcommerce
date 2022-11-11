@@ -1,5 +1,9 @@
 package com.spring.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.spring.ecommerce.Exceptions.IdAlreadyAllocatedException;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -23,22 +27,29 @@ public class Category {
     public String description;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @JsonManagedReference
     public List<Product> productList;
 
     public Category() {
     }
 
-    public Category(Long id, String name, String description, List<Product> productList) {
-        this.id = id;
+    public Category(String name, String description) {
         this.name = name;
         this.description = description;
-        this.productList = productList;
     }
 
     public Long getId() {
         return id;
     }
 
+    public void setId(Long id) {
+        if (this.id == null|| this.id.equals(id)) {
+            this.id = id;
+        } else {
+            throw new IdAlreadyAllocatedException(
+                    "Id is already allocated cannot be changed");
+        }
+    }
     public String getName() {
         return name;
     }

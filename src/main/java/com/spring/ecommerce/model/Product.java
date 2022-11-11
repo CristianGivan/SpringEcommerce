@@ -1,8 +1,13 @@
 package com.spring.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.spring.ecommerce.Exceptions.IdAlreadyAllocatedException;
+
 import javax.persistence.*;
+
 @Entity
-@Table (name = "product")
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
@@ -25,13 +30,19 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonBackReference
     public Category category;
 
     public Product() {
     }
 
-    public Product(Long id, String name, String description, Double price, Category category) {
-        this.id = id;
+    public Product(String name, String description, Double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
+    public Product(String name, String description, Double price, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -40,6 +51,15 @@ public class Product {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        if (this.id == null|| this.id.equals(id)) {
+            this.id = id;
+        } else {
+            throw new IdAlreadyAllocatedException(
+                    "Id is already allocated cannot be changed");
+        }
     }
 
     public String getName() {
