@@ -1,2 +1,5 @@
 - Cum facem cu exceptiile noastre ca imi da err nu exceptie
+- In ce pachet am pune clase normare nu Entity nu DTO poate enum sau altelele
+- de ce doar intr-o entitate sa dat cascade la many to many
+- cum verifici ca perechea user product nu a mai fost introdusa in add cardItem?
 - care sunt functiile de a trece intr-un obiect in alt obiect

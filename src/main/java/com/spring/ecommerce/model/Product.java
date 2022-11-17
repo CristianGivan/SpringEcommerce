@@ -2,9 +2,11 @@ package com.spring.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.spring.ecommerce.Exceptions.IdAlreadyAllocatedException;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -14,8 +16,7 @@ public class Product {
     @SequenceGenerator(name = "product_seq",
             sequenceName = "product_seq",
             initialValue = 1,
-            allocationSize = 1
-    )
+            allocationSize = 1)
     @Column(name = "product_id")
     public Long id;
 
@@ -33,6 +34,18 @@ public class Product {
     @JsonBackReference
     public Category category;
 
+    @OneToMany(mappedBy = "product",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    //@OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<CardItem> cardItems;
+
+/*
+
+    @OneToMany(mappedBy = "product",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JsonManagedReference
+    private List<OrderItem> orderItems;
+*/
+
     public Product() {
     }
 
@@ -48,19 +61,49 @@ public class Product {
         this.price = price;
         this.category = category;
     }
+/*
+
+    public Product(String name, String description, Double price, Category category,
+                   List<CardItem> cardItems, List<OrderItem> orderItems) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+        this.cardItems = cardItems;
+        this.orderItems = orderItems;
+    }
+*/
 
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
-        if (this.id == null|| this.id.equals(id)) {
+        if (this.id == null || this.id.equals(id)) {
             this.id = id;
         } else {
             throw new IdAlreadyAllocatedException(
                     "Id is already allocated cannot be changed");
         }
     }
+
+    public List<CardItem> getCardItems() {
+        return cardItems;
+    }
+
+    public void setCardItems(List<CardItem> cardItems) {
+        this.cardItems = cardItems;
+    }
+/*
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+*/
 
     public String getName() {
         return name;
@@ -101,7 +144,9 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
-                ", category_id=" + category.getId() +
+                ", category=" + category +
+                ", cardItems=" + cardItems +
+              //  ", orderItems=" + orderItems +
                 '}';
     }
 }

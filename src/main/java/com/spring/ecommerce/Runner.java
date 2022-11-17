@@ -1,12 +1,18 @@
 package com.spring.ecommerce;
 
 import com.spring.ecommerce.Exceptions.CategoryNotFoundException;
+import com.spring.ecommerce.model.CardItem;
 import com.spring.ecommerce.model.Category;
 import com.spring.ecommerce.model.Product;
+import com.spring.ecommerce.model.User;
+import com.spring.ecommerce.repository.CardItemRepository;
 import com.spring.ecommerce.repository.CategoryRepository;
 import com.spring.ecommerce.repository.ProductRepository;
+import com.spring.ecommerce.repository.UserRepository;
+import com.spring.ecommerce.service.CardItemService;
 import com.spring.ecommerce.service.CategoryService;
 import com.spring.ecommerce.service.ProductService;
+import com.spring.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -20,14 +26,25 @@ public class Runner implements CommandLineRunner {
     private ProductRepository productRepository;
     private ProductService productService;
     private CategoryService categoryService;
+    private UserRepository userRepository;
+    private UserService userService;
+    private CardItemRepository cardItemRepository;
+    private CardItemService cardItemService;
+
 
     @Autowired
     public Runner(CategoryRepository categoryRepository, ProductRepository productRepository,
-                  ProductService productService, CategoryService categoryService) {
+                  ProductService productService, CategoryService categoryService,
+                  UserRepository userRepository, UserService userService,
+                  CardItemRepository cardItemRepository, CardItemService cardItemService) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.productService = productService;
         this.categoryService = categoryService;
+        this.userRepository = userRepository;
+        this.userService = userService;
+        this.cardItemRepository = cardItemRepository;
+        this.cardItemService = cardItemService;
     }
 
     @Override
@@ -56,9 +73,9 @@ public class Runner implements CommandLineRunner {
         Product product9 = new Product("Product 9", "Product 9 description", 90.00);
 
         long categoryId = 1;
-        Product toProduct = product1;
-        extracted(categoryId, toProduct);
+        extracted(categoryId, product1);
 
+        Product toProduct;
         categoryId = 1;
         toProduct = product2;
         extracted(categoryId, toProduct);
@@ -91,8 +108,32 @@ public class Runner implements CommandLineRunner {
         toProduct = product9;
         extracted(categoryId, toProduct);
 
+        User user1=new User("User 1","admin",null);
+        User user2=new User("User 2","standard",null);
+        User user3=new User("User 3","standard",null);
+
+        userRepository.save(user1);
+        userRepository.save(user2);
+        userRepository.save(user3);
+
+        CardItem cardItem1 = new CardItem(1, user1, product1);
+        CardItem cardItem2 = new CardItem(2, user1, product2);
+        CardItem cardItem3 = new CardItem(3, user1, product3);
+        CardItem cardItem4 = new CardItem(4, user2, product4);
+        CardItem cardItem5 = new CardItem(5, user2, product5);
+        CardItem cardItem6 = new CardItem(6, user3, product6);
+
+//        cardItemRepository.save(cardItem1);//todo de ce nu merge?
+//        cardItemRepository.save(cardItem2);
+//        cardItemRepository.save(cardItem3);
+//        cardItemRepository.save(cardItem4);
+//        cardItemRepository.save(cardItem5);
+//        cardItemRepository.save(cardItem6);
+
         //List<Product> productList=productService.getAllProducts();
         //System.out.println(productList);
+
+
 
     }
 

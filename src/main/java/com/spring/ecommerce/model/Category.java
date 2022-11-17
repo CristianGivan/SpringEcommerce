@@ -8,15 +8,14 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name ="category" )
+@Table(name = "category")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_seq")
     @SequenceGenerator(name = "category_seq",
             sequenceName = "category_seq",
             initialValue = 1,
-            allocationSize = 1
-    )
+            allocationSize = 1)
     @Column(name = "category_id")
     public Long id;
 
@@ -43,13 +42,14 @@ public class Category {
     }
 
     public void setId(Long id) {
-        if (this.id == null|| this.id.equals(id)) {
+        if (this.id == null || this.id.equals(id)) {
             this.id = id;
         } else {
             throw new IdAlreadyAllocatedException(
                     "Id is already allocated cannot be changed");
         }
     }
+
     public String getName() {
         return name;
     }
