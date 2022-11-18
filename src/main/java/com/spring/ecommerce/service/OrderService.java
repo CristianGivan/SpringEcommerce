@@ -57,8 +57,6 @@ public class OrderService {
             OrderItem orderItem=new OrderItem();
             orderItem.setQuantity(cardItem.getQuantity());
             orderItem.setProduct(cardItem.getProduct());
-            //todo aici incerc sa pun un order dar acest order nu are inca ID cu ce scop sa il adaug?
-            //todo imi intra intr-o exceptie daca o decomentez
             orderItem.setOrder(order);
             orderItems.add(orderItem);
             order.getOrderItems().add(orderItem);
