@@ -5,19 +5,17 @@ import com.spring.ecommerce.model.CardItem;
 import com.spring.ecommerce.model.Category;
 import com.spring.ecommerce.model.Product;
 import com.spring.ecommerce.model.User;
-import com.spring.ecommerce.repository.CardItemRepository;
+import com.spring.ecommerce.repository.CardRepository;
 import com.spring.ecommerce.repository.CategoryRepository;
 import com.spring.ecommerce.repository.ProductRepository;
 import com.spring.ecommerce.repository.UserRepository;
-import com.spring.ecommerce.service.CardItemService;
+import com.spring.ecommerce.service.CardService;
 import com.spring.ecommerce.service.CategoryService;
 import com.spring.ecommerce.service.ProductService;
 import com.spring.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class Runner implements CommandLineRunner {
@@ -28,15 +26,15 @@ public class Runner implements CommandLineRunner {
     private CategoryService categoryService;
     private UserRepository userRepository;
     private UserService userService;
-    private CardItemRepository cardItemRepository;
-    private CardItemService cardItemService;
+    private CardRepository cardItemRepository;
+    private CardService cardItemService;
 
 
     @Autowired
     public Runner(CategoryRepository categoryRepository, ProductRepository productRepository,
                   ProductService productService, CategoryService categoryService,
                   UserRepository userRepository, UserService userService,
-                  CardItemRepository cardItemRepository, CardItemService cardItemService) {
+                  CardRepository cardItemRepository, CardService cardItemService) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.productService = productService;

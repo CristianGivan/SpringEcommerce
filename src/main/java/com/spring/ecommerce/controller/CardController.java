@@ -4,7 +4,7 @@ import com.spring.ecommerce.dto.CardItemAndTotalPriceDTO;
 import com.spring.ecommerce.dto.CardItemDTO;
 import com.spring.ecommerce.model.CardItem;
 import com.spring.ecommerce.model.Product;
-import com.spring.ecommerce.service.CardItemService;
+import com.spring.ecommerce.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,11 +12,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cardItem")
-public class CardItemController {
-    private CardItemService cardItemService;
+public class CardController {
+    private CardService cardItemService;
 
     @Autowired
-    public CardItemController(CardItemService cardItemService) {
+    public CardController(CardService cardItemService) {
         this.cardItemService = cardItemService;
     }
 

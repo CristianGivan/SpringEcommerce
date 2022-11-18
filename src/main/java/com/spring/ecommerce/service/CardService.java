@@ -1,14 +1,14 @@
 package com.spring.ecommerce.service;
 
 import com.spring.ecommerce.Exceptions.ProductNotFoundException;
+import com.spring.ecommerce.Exceptions.TotalPriceCalculationException;
 import com.spring.ecommerce.Exceptions.UserNotFoundException;
 import com.spring.ecommerce.dto.CardItemAndTotalPriceDTO;
 import com.spring.ecommerce.dto.CardItemDTO;
 import com.spring.ecommerce.model.CardItem;
-import com.spring.ecommerce.model.Category;
 import com.spring.ecommerce.model.Product;
 import com.spring.ecommerce.model.User;
-import com.spring.ecommerce.repository.CardItemRepository;
+import com.spring.ecommerce.repository.CardRepository;
 import com.spring.ecommerce.repository.ProductRepository;
 import com.spring.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +16,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class CardItemService {
-    private CardItemRepository cardItemRepository;
+public class CardService {
+    private CardRepository cardItemRepository;
     private UserRepository userRepository;
     private ProductRepository productRepository;
 
     @Autowired
-    public CardItemService(CardItemRepository cardItemRepository,
-                           UserRepository userRepository, ProductRepository productRepository) {
+    public CardService(CardRepository cardItemRepository,
+                       UserRepository userRepository, ProductRepository productRepository) {
         this.cardItemRepository = cardItemRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
@@ -92,6 +91,12 @@ public class CardItemService {
         for (CardItem cardItem : cardItemsOfUser){
             cardItemRepository.delete(cardItem);
         }
+    }
+    public Double calculateTotalPriceOfCardItems(List<CardItem> cardItems){
+        return cardItems.stream().
+                map(x->x.getProduct().getPrice()* x.getQuantity()).
+                reduce((s,p)->s+p).
+                orElseThrow(()->new TotalPriceCalculationException("Price cannot be calculated"));
     }
 
 }

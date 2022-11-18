@@ -30,17 +30,26 @@ public class OrderItem {
     private Product product;
 
     @Column(name = "quantity")
-    private Double quantity;
+    private int quantity;
 
-    @Override
-    public String toString() {
-        return "OrderItem{" +
-                "id=" + id +
-                ", orderId=" + order.id +
-                ", productId=" + product.id +
-                ", quantity=" + quantity+
-                '}';
+    public OrderItem() {
     }
+
+    public OrderItem(Order order, Product product, int quantity) {
+        this.order = order;
+        this.product = product;
+        this.quantity = quantity;
+    }
+
+//    @Override
+//    public String toString() {
+//        return "OrderItem{" +
+//                "id=" + id +
+//                ", order=" + order +
+//                ", product=" + product +
+//                ", quantity=" + quantity +
+//                '}';
+//    }
 
     public void setId(Long id) {
         if (this.id == null || this.id.equals(id)) {
@@ -71,11 +80,11 @@ public class OrderItem {
         this.product = product;
     }
 
-    public Double getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 

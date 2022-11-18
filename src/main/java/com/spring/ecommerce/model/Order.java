@@ -6,6 +6,7 @@ import com.spring.ecommerce.Exceptions.IdAlreadyAllocatedException;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -38,16 +39,25 @@ public class Order {
     public Order() {
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", cratedDate=" + cratedDate +
-                ", totalPrice=" + totalPrice +
-                ", userId=" + user.getId() +
-                ", orderItems=" + orderItems +
-                '}';
+//    @Override
+//    public String toString() {
+//        return "Order{" +
+//                "id=" + id +
+//                ", cratedDate=" + cratedDate +
+//                ", totalPrice=" + totalPrice +
+//                ", user=" + user +
+//                ", orderItems=" + orderItems +
+//                '}';
+//    }
+
+    public Order(LocalDateTime cratedDate, Double totalPrice, User user,
+                 List<OrderItem> orderItems) {
+        this.cratedDate = cratedDate;
+        this.totalPrice = totalPrice;
+        this.user = user;
+        this.orderItems = orderItems;
     }
+
 
     public void setId(Long id) {
         if (this.id == null || this.id.equals(id)) {
@@ -87,6 +97,9 @@ public class Order {
     }
 
     public List<OrderItem> getOrderItems() {
+        if (orderItems== null){
+            orderItems=new ArrayList<>();
+        }
         return orderItems;
     }
 

@@ -24,8 +24,8 @@ public class User {
     @Column(name = "type")
     private String type;
 
-    //@OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<CardItem> cardItems;
 

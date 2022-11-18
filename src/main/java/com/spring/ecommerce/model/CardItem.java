@@ -2,6 +2,7 @@ package com.spring.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.spring.ecommerce.Exceptions.IdAlreadyAllocatedException;
+import com.spring.ecommerce.Exceptions.TotalPriceCalculationException;
 
 import javax.persistence.*;
 
@@ -36,6 +37,8 @@ public class CardItem {
         this.user = user;
         this.product = product;
     }
+
+
 
     public Long getId() {
         return id;
