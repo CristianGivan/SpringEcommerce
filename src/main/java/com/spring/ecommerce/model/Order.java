@@ -1,4 +1,3 @@
-/*
 package com.spring.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -10,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
@@ -48,13 +47,6 @@ public class Order {
                 ", userId=" + user.getId() +
                 ", orderItems=" + orderItems +
                 '}';
-    }
-
-    public Order(LocalDateTime cratedDate, Double totalPrice, User user, List<OrderItem> orderItems) {
-        this.cratedDate = cratedDate;
-        this.totalPrice = totalPrice;
-        this.user = user;
-        this.orderItems = orderItems;
     }
 
     public void setId(Long id) {
@@ -102,4 +94,3 @@ public class Order {
         this.orderItems = orderItems;
     }
 }
-*/

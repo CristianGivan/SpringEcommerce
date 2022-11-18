@@ -39,12 +39,10 @@ public class Product {
     @JsonManagedReference
     private List<CardItem> cardItems;
 
-/*
 
     @OneToMany(mappedBy = "product",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JsonManagedReference
     private List<OrderItem> orderItems;
-*/
 
     public Product() {
     }
@@ -61,18 +59,7 @@ public class Product {
         this.price = price;
         this.category = category;
     }
-/*
 
-    public Product(String name, String description, Double price, Category category,
-                   List<CardItem> cardItems, List<OrderItem> orderItems) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.category = category;
-        this.cardItems = cardItems;
-        this.orderItems = orderItems;
-    }
-*/
 
     public Long getId() {
         return id;
@@ -94,7 +81,6 @@ public class Product {
     public void setCardItems(List<CardItem> cardItems) {
         this.cardItems = cardItems;
     }
-/*
 
     public List<OrderItem> getOrderItems() {
         return orderItems;
@@ -103,7 +89,6 @@ public class Product {
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
-*/
 
     public String getName() {
         return name;
@@ -146,7 +131,7 @@ public class Product {
                 ", price=" + price +
                 ", category=" + category +
                 ", cardItems=" + cardItems +
-              //  ", orderItems=" + orderItems +
+                ", orderItems=" + orderItems +
                 '}';
     }
 }

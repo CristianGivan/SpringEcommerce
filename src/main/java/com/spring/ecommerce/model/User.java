@@ -29,11 +29,9 @@ public class User {
     @JsonManagedReference
     private List<CardItem> cardItems;
 
-/*
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Order> orders;
-*/
 
     public User() {
     }
@@ -43,13 +41,7 @@ public class User {
         this.type = type;
         this.cardItems = cardItems;
     }
-/*
-    public User(String name, String type, List<CardItem> cardItems, List<Order> orders) {
-        this.name = name;
-        this.type = type;
-        this.cardItems = cardItems;
-        this.orders = orders;
-    }
+
 
     public List<Order> getOrders() {
         return orders;
@@ -57,7 +49,7 @@ public class User {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
-    }*/
+    }
 
     public Long getId() {
         return id;
@@ -103,7 +95,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", cardItems=" + cardItems +
-                //", orders=" + orders +
+                ", orders=" + orders +
                 '}';
     }
 }
