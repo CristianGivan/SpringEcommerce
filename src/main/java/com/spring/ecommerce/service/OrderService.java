@@ -5,6 +5,7 @@ import com.spring.ecommerce.model.Order;
 import com.spring.ecommerce.model.OrderItem;
 import com.spring.ecommerce.model.User;
 import com.spring.ecommerce.repository.OrderRepository;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,5 +64,13 @@ public class OrderService {
         }
         return orderItems;
     }
+        public  List<Order> findAllOrdersByUserAndOrderByDate(Long userId){
+        User user = userService.findUserById(userId);
+        List<Order> orders =orderRepository.findAllByUser(user);
+        return orders;
+        }
+        public Order findOrderById(Long id){
+        return orderRepository.findAllById(id);
+        }
 
 }
