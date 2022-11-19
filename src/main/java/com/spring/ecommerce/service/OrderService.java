@@ -7,14 +7,12 @@ import com.spring.ecommerce.model.User;
 import com.spring.ecommerce.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class OrderService {
     private OrderRepository orderRepository;
     private CardService cardService;
@@ -64,11 +62,6 @@ public class OrderService {
             order.getOrderItems().add(orderItem);
         }
         return orderItems;
-    }
-
-    public List<Order>getAllOrdersByUserOrderedByCreatedDate(Long userId){
-        User user =userService.findUserById(userId);
-        return orderRepository.findAllByUserOrderByCratedDate(user);
     }
 
 }
