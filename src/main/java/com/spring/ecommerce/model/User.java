@@ -29,9 +29,13 @@ public class User {
     @JsonManagedReference
     private List<CardItem> cardItems;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JsonManagedReference
     private List<Order> orders;
+
+    @OneToOne(mappedBy = "user",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    private Wishlist wishlist;
+
 
 //  @ManyToMany
 //  @JoinTable(
@@ -70,6 +74,12 @@ public class User {
             throw new IdAlreadyAllocatedException(
                     "Id is already allocated cannot be changed");
         }
+    }
+    public Wishlist getWishlist() {
+        return wishlist;
+    }
+    public void setWishlist(Wishlist wishlist) {
+        this.wishlist = wishlist;
     }
 
     public String getName() {

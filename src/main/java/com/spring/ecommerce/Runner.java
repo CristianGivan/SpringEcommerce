@@ -1,18 +1,9 @@
 package com.spring.ecommerce;
 
 import com.spring.ecommerce.Exceptions.CategoryNotFoundException;
-import com.spring.ecommerce.model.CardItem;
-import com.spring.ecommerce.model.Category;
-import com.spring.ecommerce.model.Product;
-import com.spring.ecommerce.model.User;
-import com.spring.ecommerce.repository.CardRepository;
-import com.spring.ecommerce.repository.CategoryRepository;
-import com.spring.ecommerce.repository.ProductRepository;
-import com.spring.ecommerce.repository.UserRepository;
-import com.spring.ecommerce.service.CardService;
-import com.spring.ecommerce.service.CategoryService;
-import com.spring.ecommerce.service.ProductService;
-import com.spring.ecommerce.service.UserService;
+import com.spring.ecommerce.model.*;
+import com.spring.ecommerce.repository.*;
+import com.spring.ecommerce.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -28,13 +19,18 @@ public class Runner implements CommandLineRunner {
     private UserService userService;
     private CardRepository cardItemRepository;
     private CardService cardItemService;
-
+    private WishlistRepository wishlistRepository;
+    private WishlistService wishlistService;
+    private WishlistItemRepository wishlistItemRepository;
+    private WishlistItemService wishlistItemService;
 
     @Autowired
     public Runner(CategoryRepository categoryRepository, ProductRepository productRepository,
                   ProductService productService, CategoryService categoryService,
-                  UserRepository userRepository, UserService userService,
-                  CardRepository cardItemRepository, CardService cardItemService) {
+                  UserRepository userRepository, UserService userService, CardRepository cardItemRepository,
+                  CardService cardItemService, WishlistRepository wishlistRepository,
+                  WishlistService wishlistService, WishlistItemRepository wishlistItemRepository,
+                  WishlistItemService wishlistItemService) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.productService = productService;
@@ -43,6 +39,10 @@ public class Runner implements CommandLineRunner {
         this.userService = userService;
         this.cardItemRepository = cardItemRepository;
         this.cardItemService = cardItemService;
+        this.wishlistRepository = wishlistRepository;
+        this.wishlistService = wishlistService;
+        this.wishlistItemRepository = wishlistItemRepository;
+        this.wishlistItemService = wishlistItemService;
     }
 
     @Override
@@ -106,31 +106,45 @@ public class Runner implements CommandLineRunner {
         toProduct = product9;
         extracted(categoryId, toProduct);
 
-        User user1=new User("User 1","admin",null);
-        User user2=new User("User 2","standard",null);
-        User user3=new User("User 3","standard",null);
 
-        userRepository.save(user1);
-        userRepository.save(user2);
-        userRepository.save(user3);
+        User user1 = new User("User 1", "admin", null);
+        User user2 = new User("User 2", "standard", null);
+        User user3 = new User("User 3", "standard", null);
 
-        CardItem cardItem1 = new CardItem(1, user1, product1);
-        CardItem cardItem2 = new CardItem(2, user1, product2);
-        CardItem cardItem3 = new CardItem(3, user1, product3);
-        CardItem cardItem4 = new CardItem(4, user2, product4);
-        CardItem cardItem5 = new CardItem(5, user2, product5);
-        CardItem cardItem6 = new CardItem(6, user3, product6);
+        User savedUser1 = userRepository.save(user1);
+        User savedUser2 = userRepository.save(user2);
+        User savedUser3 = userRepository.save(user3);
 
-//        cardItemRepository.save(cardItem1);//todo de ce nu merge?
-//        cardItemRepository.save(cardItem2);
-//        cardItemRepository.save(cardItem3);
-//        cardItemRepository.save(cardItem4);
-//        cardItemRepository.save(cardItem5);
-//        cardItemRepository.save(cardItem6);
+        Product savedProduct1 = productRepository.findProductById(1l);
+        Product savedProduct2 = productRepository.findProductById(2l);
+        Product savedProduct3 = productRepository.findProductById(3l);
+        Product savedProduct4 = productRepository.findProductById(4l);
+        Product savedProduct5 = productRepository.findProductById(5l);
+        Product savedProduct6 = productRepository.findProductById(6l);
 
-        //List<Product> productList=productService.getAllProducts();
-        //System.out.println(productList);
+        CardItem cardItem1 = new CardItem(1, savedUser1, savedProduct1);
+        CardItem cardItem2 = new CardItem(2, savedUser1, savedProduct2);
+        CardItem cardItem3 = new CardItem(3, savedUser1, savedProduct3);
+        CardItem cardItem4 = new CardItem(4, savedUser2, savedProduct4);
+        CardItem cardItem5 = new CardItem(5, savedUser2, savedProduct5);
+        CardItem cardItem6 = new CardItem(6, savedUser3, savedProduct6);
 
+
+        cardItemRepository.save(cardItem1);
+        cardItemRepository.save(cardItem2);
+        cardItemRepository.save(cardItem3);
+        cardItemRepository.save(cardItem4);
+        cardItemRepository.save(cardItem5);
+        cardItemRepository.save(cardItem6);
+
+
+//        Wishlist wishlist1 = new Wishlist("wishlist1", savedUser1);
+//        savedUser1.setWishlist(wishlist1);
+//        wishlistRepository.save(wishlist1);
+//
+//        Wishlist wishlist2 = new Wishlist("wishlist2", savedUser2);
+//        savedUser1.setWishlist(wishlist2);
+//        wishlistRepository.save(wishlist2);
 
 
     }

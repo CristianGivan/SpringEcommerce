@@ -44,6 +44,10 @@ public class Product {
     @JsonManagedReference
     private List<OrderItem> orderItems;
 
+    @OneToMany(mappedBy = "product",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @JsonManagedReference
+    private List<WishlistItem> wishlistItems;
+
     public Product() {
     }
 
