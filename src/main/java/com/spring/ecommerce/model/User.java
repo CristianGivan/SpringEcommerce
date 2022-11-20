@@ -33,6 +33,7 @@ public class User {
     @JsonManagedReference
     private List<Order> orders;
 
+
     @OneToOne(mappedBy = "user",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private Wishlist wishlist;
 
@@ -76,6 +77,9 @@ public class User {
         }
     }
     public Wishlist getWishlist() {
+        if (wishlist==null){
+            wishlist=new Wishlist();
+        }
         return wishlist;
     }
     public void setWishlist(Wishlist wishlist) {

@@ -6,6 +6,8 @@ import com.spring.ecommerce.repository.WishlistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WishlistService {
     private WishlistRepository wishlistRepository;
@@ -17,10 +19,16 @@ public class WishlistService {
         this.userService = userService;
     }
 
-    public Wishlist createWishlistAtUser(String name, Long userId){
-        User user =userService.findUserById(userId);
-        Wishlist wishlist =new Wishlist(name,user);
+    public Wishlist createWishlistAtUser(String name, Long userId) {
+        User user = userService.findUserById(userId);
+        Wishlist wishlist = new Wishlist(name, user);
         user.setWishlist(wishlist);
         return wishlistRepository.save(wishlist);
     }
+
+    public Wishlist findWishlistFromUser(Long userId) {
+        return wishlistRepository.findByUser(userService.findUserById(userId));
+    }
+
+
 }

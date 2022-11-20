@@ -23,12 +23,18 @@ public class WishlistItem {
     @JsonBackReference
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinColumn(name = "wishlist_wishlist_id")
     @JsonBackReference
     private Wishlist wishlist;
 
     public WishlistItem() {
+    }
+
+    public WishlistItem(String name, Product product, Wishlist wishlist) {
+        this.name = name;
+        this.product = product;
+        this.wishlist = wishlist;
     }
 
     public Wishlist getWishlist() {
