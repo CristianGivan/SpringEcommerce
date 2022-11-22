@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class Runner implements CommandLineRunner {
 
@@ -23,6 +26,9 @@ public class Runner implements CommandLineRunner {
     private WishlistService wishlistService;
     private WishlistItemRepository wishlistItemRepository;
     private WishlistItemService wishlistItemService;
+    private RoleRepository roleRepository;
+
+
 
     @Autowired
     public Runner(CategoryRepository categoryRepository, ProductRepository productRepository,
@@ -30,7 +36,7 @@ public class Runner implements CommandLineRunner {
                   UserRepository userRepository, UserService userService, CardRepository cardItemRepository,
                   CardService cardItemService, WishlistRepository wishlistRepository,
                   WishlistService wishlistService, WishlistItemRepository wishlistItemRepository,
-                  WishlistItemService wishlistItemService) {
+                  WishlistItemService wishlistItemService,RoleRepository roleRepository) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.productService = productService;
@@ -43,6 +49,7 @@ public class Runner implements CommandLineRunner {
         this.wishlistService = wishlistService;
         this.wishlistItemRepository = wishlistItemRepository;
         this.wishlistItemService = wishlistItemService;
+        this.roleRepository=roleRepository;
     }
 
     @Override
@@ -107,13 +114,17 @@ public class Runner implements CommandLineRunner {
         extracted(categoryId, toProduct);
 
 
-        User user1 = new User("User 1", "admin", null);
-        User user2 = new User("User 2", "standard", null);
-        User user3 = new User("User 3", "standard", null);
+        User user1 = new User("User 1",
+                "$2a$12$sJZ7/SZpCOTSeMg1jos87ulm.OcN31uQKnYisY/5r5XlNXSoQKPRi");
+        User user2 = new User("User 2",
+                "$2a$12$gaUsXx4r4JlzHYXomu/XguBgQZbj2XXOWq5h683u7KCOPUozoRy56");
+        User user3 = new User("User 3",
+                "$2a$12$b/jcMc9LC8sTk.8mV6Mzv.0GFCqgD7O/oK6m96nojFVKuGj8LlJv2");
 
         User savedUser1 = userRepository.save(user1);
         User savedUser2 = userRepository.save(user2);
         User savedUser3 = userRepository.save(user3);
+
 
         Product savedProduct1 = productRepository.findProductById(1l);
         Product savedProduct2 = productRepository.findProductById(2l);
@@ -137,7 +148,21 @@ public class Runner implements CommandLineRunner {
         cardItemRepository.save(cardItem5);
         cardItemRepository.save(cardItem6);
 
+        List<User> adminUsers=new ArrayList<>();
+        adminUsers.add(savedUser1);
+        adminUsers.add(savedUser3);
+        List<User> clientUsers=new ArrayList<>();
+        clientUsers.add(savedUser2);
+        clientUsers.add(savedUser3);
 
+        Role adminRole=new Role(RoleType.ROLE_ADMIN,adminUsers);
+        Role clientRole=new Role(RoleType.ROLE_CLIENT,clientUsers);
+
+        roleRepository.save(adminRole);
+        roleRepository.save(clientRole);
+
+
+// todo nu reusesc sa fac corect One to One
 //        Wishlist wishlist1 = new Wishlist("wishlist1", savedUser1);
 //        savedUser1.setWishlist(wishlist1);
 //        wishlistRepository.save(wishlist1);
@@ -145,7 +170,9 @@ public class Runner implements CommandLineRunner {
 //        Wishlist wishlist2 = new Wishlist("wishlist2", savedUser2);
 //        savedUser1.setWishlist(wishlist2);
 //        wishlistRepository.save(wishlist2);
-
+//        System.out.println(user1);
+//        System.out.println(user2);
+//        System.out.println(user3);
 
     }
 

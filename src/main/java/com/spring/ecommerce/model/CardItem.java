@@ -1,6 +1,7 @@
 package com.spring.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.spring.ecommerce.Exceptions.IdAlreadyAllocatedException;
 import com.spring.ecommerce.Exceptions.TotalPriceCalculationException;
 
@@ -20,13 +21,13 @@ public class CardItem {
     @Column(name = "quantity")
     private int quantity;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     private User user;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "product_id")
-    @JsonBackReference
     private Product product;
 
     public CardItem() {
@@ -82,8 +83,8 @@ public class CardItem {
         return "CardItem{" +
                 "id=" + id +
                 ", quantity=" + quantity +
-                ", user_id=" + user.getId() +
-                ", product_id=" + product.getId() +
+                ", userId=" + user.getId() +
+                ", productId=" + product.getId() +
                 '}';
     }
 }

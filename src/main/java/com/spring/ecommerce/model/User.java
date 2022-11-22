@@ -1,6 +1,6 @@
 package com.spring.ecommerce.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.spring.ecommerce.Exceptions.IdAlreadyAllocatedException;
 
 import javax.persistence.*;
@@ -18,43 +18,49 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "username")
+    private String username;
 
-    @Column(name = "type")
-    private String type;
+    @Column(name = "password")
+    private String password;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<CardItem> cardItems;
 
-    @OneToMany(mappedBy = "user",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Order> orders;
 
 
-    @OneToOne(mappedBy = "user",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @OneToOne(mappedBy = "user")
+    @JsonIgnore
     private Wishlist wishlist;
 
-
-//  @ManyToMany
-//  @JoinTable(
-//          name = "user_role",
-//          joinColumns = @JoinColumn(name = "user_id"),
-//          inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    private List<Role> roles;
+    @ManyToMany(mappedBy = "users")
+    private List<Role> roleList;
 
 
     public User() {
     }
 
-    public User(String name, String type, List<CardItem> cardItems) {
-        this.name = name;
-        this.type = type;
-        this.cardItems = cardItems;
+    public User(String username, String password) {
+        this.username = username;
+        this.password=password;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", cardItems=" + cardItems +
+                ", orders=" + orders +
+                ", wishlistId=" + wishlist.getId() +
+                ", roleList=" + roleList +
+                '}';
+    }
 
     public List<Order> getOrders() {
         return orders;
@@ -76,30 +82,27 @@ public class User {
                     "Id is already allocated cannot be changed");
         }
     }
+
     public Wishlist getWishlist() {
-        if (wishlist==null){
-            wishlist=new Wishlist();
+        if (wishlist == null) {
+            wishlist = new Wishlist();
         }
         return wishlist;
     }
+
     public void setWishlist(Wishlist wishlist) {
+        if (wishlist==null){
+            wishlist=new Wishlist();
+        }
         this.wishlist = wishlist;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
     public List<CardItem> getCardItems() {
@@ -110,14 +113,19 @@ public class User {
         this.cardItems = cardItems;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", cardItems=" + cardItems +
-                ", orders=" + orders +
-                '}';
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roles) {
+        this.roleList = roles;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

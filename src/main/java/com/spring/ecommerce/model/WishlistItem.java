@@ -1,6 +1,7 @@
 package com.spring.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -20,12 +21,12 @@ public class WishlistItem {
 
     @ManyToOne
     @JoinColumn(name = "product_product_id")
-    @JsonBackReference
+    @JsonIgnore
     private Product product;
 
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinColumn(name = "wishlist_wishlist_id")
-    @JsonBackReference
+    @JsonIgnore
     private Wishlist wishlist;
 
     public WishlistItem() {
@@ -35,6 +36,16 @@ public class WishlistItem {
         this.name = name;
         this.product = product;
         this.wishlist = wishlist;
+    }
+
+    @Override
+    public String toString() {
+        return "WishlistItem{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", productId=" + product.getId() +
+                ", wishlist=" + wishlist +
+                '}';
     }
 
     public Wishlist getWishlist() {

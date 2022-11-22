@@ -22,7 +22,13 @@ public class WishlistController {
         this.wishlistService = wishlistService;
         this.wishlistItemService = wishlistItemService;
     }
-
+/*todo primesc err:
+*    "timestamp": "2022-11-20T14:11:01.048+00:00",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/order/1"
+* dar in baza de date se intampla modificarea
+* */
     @PostMapping("/create/{name}/{userId}")
     public Wishlist createWishlistAtUser(@PathVariable String name, @PathVariable Long userId) {
         return wishlistService.createWishlistAtUser(name, userId);

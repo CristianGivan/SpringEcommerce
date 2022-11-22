@@ -1,6 +1,8 @@
 package com.spring.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.spring.ecommerce.Exceptions.IdAlreadyAllocatedException;
 
@@ -26,7 +28,7 @@ public class Category {
     public String description;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    //@JsonIgnore
     public List<Product> productList;
 
     public Category() {

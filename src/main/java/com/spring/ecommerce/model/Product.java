@@ -2,6 +2,7 @@ package com.spring.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.spring.ecommerce.Exceptions.IdAlreadyAllocatedException;
 
@@ -31,22 +32,20 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonBackReference
+    @JsonIgnore
     public Category category;
 
-    @OneToMany(mappedBy = "product",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     //@OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<CardItem> cardItems;
 
 
-    @OneToMany(mappedBy = "product",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JsonManagedReference
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<OrderItem> orderItems;
 
-    @OneToMany(mappedBy = "product",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JsonManagedReference
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<WishlistItem> wishlistItems;
+
 
     public Product() {
     }
@@ -64,6 +63,19 @@ public class Product {
         this.category = category;
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", categoryId=" + category.getId() +
+                ", cardItems=" + cardItems +
+                ", orderItems=" + orderItems +
+                ", wishlistItems=" + wishlistItems +
+                '}';
+    }
 
     public Long getId() {
         return id;
@@ -126,16 +138,4 @@ public class Product {
         this.category = category;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", category=" + category +
-                ", cardItems=" + cardItems +
-                ", orderItems=" + orderItems +
-                '}';
-    }
 }

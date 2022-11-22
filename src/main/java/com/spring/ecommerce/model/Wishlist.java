@@ -29,7 +29,6 @@ public class Wishlist {
     private User user;
 
     @OneToMany(mappedBy = "wishlist", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JsonBackReference
     List<WishlistItem> wishlistItems;
 
     public Wishlist() {

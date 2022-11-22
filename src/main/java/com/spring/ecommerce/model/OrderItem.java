@@ -1,6 +1,7 @@
 package com.spring.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.spring.ecommerce.Exceptions.IdAlreadyAllocatedException;
 
 import javax.persistence.*;
@@ -21,19 +22,30 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    @JsonBackReference
+    @JsonIgnore
     private Order order;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    @JsonBackReference
+    @JsonIgnore
     private Product product;
 
     @Column(name = "quantity")
     private int quantity;
 
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "id=" + id +
+                ", orderId=" + order.getId() +
+                ", productId=" + product.getId() +
+                ", quantity=" + quantity +
+                '}';
+    }
+
     public OrderItem() {
     }
+
 
     public OrderItem(Order order, Product product, int quantity) {
         this.order = order;
@@ -41,15 +53,7 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-//    @Override
-//    public String toString() {
-//        return "OrderItem{" +
-//                "id=" + id +
-//                ", order=" + order +
-//                ", product=" + product +
-//                ", quantity=" + quantity +
-//                '}';
-//    }
+
 
     public void setId(Long id) {
         if (this.id == null || this.id.equals(id)) {

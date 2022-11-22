@@ -1,6 +1,7 @@
 package com.spring.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.spring.ecommerce.Exceptions.IdAlreadyAllocatedException;
 
@@ -29,26 +30,25 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "order",cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JsonManagedReference
     private List<OrderItem>orderItems;
 
     public Order() {
     }
 
-//    @Override
-//    public String toString() {
-//        return "Order{" +
-//                "id=" + id +
-//                ", cratedDate=" + cratedDate +
-//                ", totalPrice=" + totalPrice +
-//                ", user=" + user +
-//                ", orderItems=" + orderItems +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", cratedDate=" + cratedDate +
+                ", totalPrice=" + totalPrice +
+                ", userId=" + user.getId() +
+                ", orderItems=" + orderItems +
+                '}';
+    }
 
     public Order(LocalDateTime cratedDate, Double totalPrice, User user,
                  List<OrderItem> orderItems) {
