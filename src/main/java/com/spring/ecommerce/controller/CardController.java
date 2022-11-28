@@ -40,9 +40,9 @@ public class CardController {
     }
 
 
-    @GetMapping("/from_user/{userId}")//todo q unde s-ar incadra cel mai bine aceasta metoda?
-    public List<Product> getAllProductsFromUser(@PathVariable Long userId) {
-        return cardItemService.getAllProductsFromUser(userId);
+    @GetMapping("/from_user")//todo q unde s-ar incadra cel mai bine aceasta metoda?
+    public List<Product> getAllProductsFromUser() {
+        return cardItemService.getAllProductsFromUser();
     }
     @GetMapping("/CI_from_user/{userId}")
     public List<CardItem> getAllCardItemsFromUser(@PathVariable Long userId) {

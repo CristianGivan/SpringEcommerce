@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.spring.ecommerce.Exceptions.IdAlreadyAllocatedException;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,7 +38,7 @@ public class User {
     @JsonIgnore
     private Wishlist wishlist;
 
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users"/*, cascade = {CascadeType.PERSIST, CascadeType.MERGE}*/)
     private List<Role> roleList;
 
 
@@ -114,6 +115,9 @@ public class User {
     }
 
     public List<Role> getRoleList() {
+        if (roleList==null){
+            roleList=new ArrayList<>();
+        }
         return roleList;
     }
 

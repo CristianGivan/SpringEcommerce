@@ -14,17 +14,17 @@ public class JwtTokenService {
     private Algorithm hmac512;
     private JWTVerifier verifier;
 
-    public static final long JWR_TOKEN_VALIDITY = 1001000L;
+    public static final long JWT_TOKEN_VALIDITY = 10001000L;
 
-    public JwtTokenService(@Value("${mysecret}") String secret) {
+    public JwtTokenService(@Value("${jwt.secret}") String secret) {
         this.hmac512 = Algorithm.HMAC512(secret);
         this.verifier = JWT.require(this.hmac512).build();
     }
 
-    public String generateToke(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails) {
         return JWT.create()
                 .withSubject(userDetails.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + JWR_TOKEN_VALIDITY))
+                .withExpiresAt(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
                 .sign(this.hmac512);
     }
     public String validateToken(String token){

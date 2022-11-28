@@ -3,10 +3,11 @@ package com.spring.ecommerce.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table (name = "role")
+@Table(name = "role")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq")
@@ -23,9 +24,10 @@ public class Role {
     @ManyToMany
     @JoinTable(
             name = "user_role",
-            joinColumns=@JoinColumn(name = "role_id"),
-            inverseJoinColumns=@JoinColumn(name = "user_id")
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @JsonIgnore
     private List<User> users;
 
     public Role() {
@@ -62,6 +64,9 @@ public class Role {
     }
 
     public List<User> getUsers() {
+        if (users == null) {
+            users = new ArrayList<>();
+        }
         return users;
     }
 

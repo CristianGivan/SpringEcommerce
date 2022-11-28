@@ -12,6 +12,8 @@ import com.spring.ecommerce.repository.CardRepository;
 import com.spring.ecommerce.repository.ProductRepository;
 import com.spring.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -54,14 +56,15 @@ public class CardService {
         cardItemRepository.delete(cardItem);
     }
 
-    public List<Product> getAllProductsFromUser(Long userId) {
+    public List<Product> getAllProductsFromUser() {
         /*
          * - Caut care este userul care are id
          * - caut toate card itemurile care au un user
          * - gasesc lista de produse cu acel di CardItem
          *   */
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new UserNotFoundException("User not found"));
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
         List<CardItem> cardItems = cardItemRepository.findAllByUser(user);
         List<Product> products = new ArrayList<>();
         for (CardItem cardItem : cardItems) {
@@ -82,21 +85,23 @@ public class CardService {
     public CardItemAndTotalPriceDTO getAllCardItemsAndTotalPriceFromUser(Long userId) {
         return new CardItemAndTotalPriceDTO(getAllCartItemsFromUser(userId));
     }
-    public void deleteCardItemsFromUser(Long userId){
+
+    public void deleteCardItemsFromUser(Long userId) {
         /*
-        * - gasesc lista de card itemuri de la user id
-        * - intru la fiecare card item si il sterg
-        * */
-        List<CardItem> cardItemsOfUser =cardItemRepository.findAllByUser_Id(userId);
-        for (CardItem cardItem : cardItemsOfUser){
+         * - gasesc lista de card itemuri de la user id
+         * - intru la fiecare card item si il sterg
+         * */
+        List<CardItem> cardItemsOfUser = cardItemRepository.findAllByUser_Id(userId);
+        for (CardItem cardItem : cardItemsOfUser) {
             cardItemRepository.delete(cardItem);
         }
     }
-    public Double calculateTotalPriceOfCardItems(List<CardItem> cardItems){
+
+    public Double calculateTotalPriceOfCardItems(List<CardItem> cardItems) {
         return cardItems.stream().
-                map(x->x.getProduct().getPrice()* x.getQuantity()).
-                reduce((s,p)->s+p).
-                orElseThrow(()->new TotalPriceCalculationException("Price cannot be calculated"));
+                map(x -> x.getProduct().getPrice() * x.getQuantity()).
+                reduce((s, p) -> s + p).
+                orElseThrow(() -> new TotalPriceCalculationException("Price cannot be calculated"));
     }
 
 }
